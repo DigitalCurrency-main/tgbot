@@ -1,9 +1,9 @@
-from telegram.ext import Application, CommandHandler, MessageHandler, filters
-from swarm import Swarm, Agent
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from swarm import Swarm, Agent  # 
 import os
 import requests
 
-os.environ["OPENAI_API_KEY"] = "sk-lhxs_BlYF4UamdvtPj5Q5RRmgnIOjKxiNiDQ7x0ZxQT3BlbkFJYf4tmYKNFJ9YsUm4B-sHZXquhY3QHQX84IgiZ5O9wA"
+os.environ["OPENAI_API_KEY"] = "sk--tMWswDIoiLJ3gTogBqzszP4q31X1BFWoMgHqKWsrvT3BlbkFJYjjtOUVz1dbpOJT9_ARohhKwYaSb8Ob-zA2o8bE9sA"
 
 # Initialize Swarm client and agents
 client = Swarm()
@@ -23,7 +23,7 @@ def get_fees_percent():
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
         return None
-
+    
 def get_fees_under_amount_300():
     "fees under 350 usd is amount - 10, like for 100 usd amount is 90 usd, for 200 amount is 190 usd"
 
@@ -40,6 +40,7 @@ def business_info_agent():
         ),
         functions=[get_fees_percent,get_fees_under_amount_300],
     )
+
 
 agent_a = Agent(
     name="Agent A",
@@ -94,16 +95,18 @@ def start(update, context):
 
 def main():
     # Replace 'your-telegram-bot-token' with the token you got from BotFather
-    application = Application.builder().token('7358772825:AAFMBLHsx9YssAZh79-6XXC0IFM_JfeAecE').build()
+    updater = Updater('7358772825:AAFMBLHsx9YssAZh79-6XXC0IFM_JfeAecE', use_context=True)
+    dp = updater.dispatcher
 
     # Handle the /start command
-    application.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("start", start))
 
     # Handle messages with the handle_message function
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_message))
 
     # Start the bot
-    application.run_polling()
+    updater.start_polling()
+    updater.idle()
 
 if __name__ == '__main__':
     main()
