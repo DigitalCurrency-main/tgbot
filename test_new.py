@@ -3,12 +3,12 @@ from swarm import Swarm, Agent  #
 import os
 import requests
 
-os.environ["OPENAI_API_KEY"] = "sk--tMWswDIoiLJ3gTogBqzszP4q31X1BFWoMgHqKWsrvT3BlbkFJYjjtOUVz1dbpOJT9_ARohhKwYaSb8Ob-zA2o8bE9sA"
+os.environ["OPENAI_API_KEY"] = "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"
 
 # Initialize Swarm client and agents
 client = Swarm()
 
-def get_fees_percent():
+def get_fees_percent(): # 
     url = "https://digitalcurrencypr.com/api/getCommisonTable"
     
     try:
